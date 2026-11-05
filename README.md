@@ -64,7 +64,7 @@ Iframe validation failures are not observable from the parent page because the i
   event: "ghl_form_success",
   ec_event_id: "uuid-v4",
   ec_detection_method: "postmessage",
-  ec_tracker_version: "3.0.1",
+  ec_tracker_version: "3.3.0",
   ec_name: "Jane Doe",
   ec_email: "jane@example.com",
   ec_phone: "+15551234567",
@@ -91,7 +91,7 @@ When PII consent is denied, PII fields are removed:
   event: "ghl_form_success",
   ec_event_id: "uuid-v4",
   ec_detection_method: "postmessage",
-  ec_tracker_version: "3.0.1",
+  ec_tracker_version: "3.3.0",
   form_url: "https://example.com/landing-page",
   form_platform: "ghl_iframe",
   form_position: "top",
@@ -308,7 +308,7 @@ Event name equals ec_tracker_initialized
 
 ## Version
 
-Current version: `3.0.1`
+Current version: `3.3.0`
 
 ## License
 
