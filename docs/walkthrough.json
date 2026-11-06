@@ -1,7 +1,7 @@
 {
  "title": "How to Track GoHighLevel Forms in GTM, Tested on a Live Form",
  "intro": "<p>I wrote this post, published it, and then took it down. The listener had only passed simulated tests, and that isn't enough for a guide you might follow on a client's site.</p><p>So I found a live page built on GoHighLevel and put a real, clearly labelled test lead through its native form. The lead went through and the listener caught it, with the name, email, phone and ZIP intact. The form's validation error, though, didn't fire <code>ghl_form_failed</code>. That was a bug in my listener, and I fixed it and retested it on the same form.</p><p>Here's how to install it, with the names removed.</p>",
- "tldr": "<p>Add one free Custom HTML tag and trigger on <code>ghl_form_success</code>. On a native GoHighLevel form it caught a real lead with full contact data, and it also accepts iframe messages from GoHighLevel domains. The iframe path hasn't been tested on a live form yet, so test yours before you rely on it.</p>",
+ "tldr": "<p>This free script counts GoHighLevel form leads and leaves out calendar bookings. On a live GoHighLevel form it caught a real test lead with the full contact details. Forms embedded in an iframe haven't been tested on a live form yet, so send your own test lead first.</p>",
  "sections": [
   [
    "A form and a calendar look alike from outside",
