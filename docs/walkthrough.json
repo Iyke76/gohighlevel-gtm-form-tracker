@@ -9,7 +9,7 @@
   ],
   [
    "Step 1: Add the listener tag",
-   "<ol><li><a class=\"uft-download\" href=\"https://iyrexmedia.com/wp-content/uploads/gtm-form-listeners/gohighlevel-form-tracker-v3.3.0.gtm.txt\" download>Download the GTM tag</a>, or get it from <a href=\"https://github.com/Iyke76/gohighlevel-gtm-form-tracker\" target=\"_blank\" rel=\"noopener\">GitHub</a>.</li><li>In GTM, go to <strong>Tags &gt; New &gt; Custom HTML</strong> and paste it.</li><li>Trigger it on <strong>All Pages</strong>.</li></ol>[[img:ghl-listener-tag|The standalone tag in that container, paused because the universal tag does the work. An older build is shown. Yours should be active.]]<p>If the site uses other form tools too, use the <a href=\"https://iyrexmedia.com/universal-gtm-form-tracking-listener/\">universal listener walkthrough</a> instead of stacking tags.</p>"
+   "<ol><li><a class=\"uft-download\" href=\"https://iyrexmedia.com/wp-content/uploads/gtm-form-listeners/gohighlevel-form-tracker-v3.3.0.gtm.txt\" download>Download the GTM tag</a>, or get it from <a href=\"https://github.com/Iyke76/gohighlevel-gtm-form-tracker\" target=\"_blank\" rel=\"noopener\">GitHub</a>.</li><li>In GTM, go to <strong>Tags &gt; New &gt; Custom HTML</strong> and paste it.</li><li>Trigger it on <strong>All Pages</strong>.</li></ol>[[img:ghl-listener-tag|An older build, paused in a client container where a universal tag is active. Yours should be active.]]<p>If the site uses other form tools too, use the <a href=\"https://iyrexmedia.com/universal-gtm-form-tracking-listener/\">universal listener walkthrough</a> instead of stacking tags.</p>"
   ],
   [
    "Step 2: Create the trigger",
