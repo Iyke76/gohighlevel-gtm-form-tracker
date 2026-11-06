@@ -1,7 +1,7 @@
 {
- "title": "How to Track GoHighLevel Forms in GTM Without Counting Bookings",
- "intro": "<p>A GoHighLevel page can have a form and a calendar on it. Both sit in iframes from the same domains, and both talk to the page through messages. A listener that isn't careful about which is which can record a booking as a form lead.</p><p>When I went through 104 client containers this month, one had a dedicated GoHighLevel listener. It was paused, because a universal listener in the same container already catches <code>ghl_form_success</code>. That's the right call, since you only want one listener doing the job. It also gave me a real setup to show you.</p><p>Here's how to install it, with the names removed.</p>",
- "tldr": "<p>Add one free Custom HTML tag and trigger on <code>ghl_form_success</code>. It covers iframe and inline forms, ignores booking messages, and only accepts messages from GoHighLevel domains. Contact data works on both embeds. Test on your own form, because GoHighLevel's message format isn't documented.</p>",
+ "title": "How to Track GoHighLevel Forms in GTM, Tested on a Live Form",
+ "intro": "<p>I wrote this post, published it, and then took it down. The listener had only passed simulated tests, and that isn't enough for a guide you might follow on a client's site.</p><p>So I found a live page built on GoHighLevel and put a real, clearly labelled test lead through its native form. The lead went through and the listener caught it, with the name, email, phone and ZIP intact. The form's validation error, though, didn't fire <code>ghl_form_failed</code>. That was a bug in my listener, and I fixed it and retested it on the same form.</p><p>Here's how to install it, with the names removed.</p>",
+ "tldr": "<p>Add one free Custom HTML tag and trigger on <code>ghl_form_success</code>. On a native GoHighLevel form it caught a real lead with full contact data, and it also accepts iframe messages from GoHighLevel domains. The iframe path hasn't been tested on a live form yet, so test yours before you rely on it.</p>",
  "sections": [
   [
    "A form and a calendar look alike from outside",
@@ -21,20 +21,20 @@
   ],
   [
    "Step 4: Test, then publish",
-   "<ol><li>In <strong>Preview</strong>, load the page and expect <code>ec_tracker_initialized</code>.</li><li>Submit a labelled test lead. Expect one <code>ghl_form_success</code>, and check <code>ec_detection_method</code> and the <code>ec_*</code> values.</li><li>If the page has a calendar, book a test slot. No <code>ghl_form_success</code> should fire.</li><li>If nothing fires, set <code>debug: true</code>. The console says why each message was ignored.</li></ol><p>Then remove old click and thank-you triggers, or each lead counts twice.</p>"
+   "<ol><li>In <strong>Preview</strong>, load the page and expect <code>ec_tracker_initialized</code>.</li><li>Submit a labelled test lead. Use a valid phone format, because GoHighLevel rejected our 555-555 test number. Expect one <code>ghl_form_success</code>, and check <code>ec_detection_method</code> and the <code>ec_*</code> values.</li><li>If the page has a calendar, book a test slot. No <code>ghl_form_success</code> should fire.</li><li>Submit with a required field empty. Expect <code>ghl_form_failed</code> on a native form.</li><li>If nothing fires, set <code>debug: true</code>. The console says why each message was ignored.</li></ol><p>Then remove old click and thank-you triggers, or each lead counts twice.</p>"
   ],
   [
    "What to know",
-   "<ul><li>I tested v3.3.0 in Chrome with simulated messages to a GoHighLevel iframe. A wrong origin, a booking message and a payload with no identifier were all ignored. A lead fired once, with a normalised email and phone, and a second message from that iframe didn't fire again.</li><li>That wasn't a live form. GoHighLevel doesn't document this message and could change it, so test on yours with <code>debug: true</code>.</li><li>No validation failures for iframes. The parent page can't see them.</li><li>Only one event per iframe per page load, so a second submission without a reload isn't counted.</li></ul>"
+   "<ul><li><strong>Native form:</strong> on a live page in November 2026, a labelled test lead fired one <code>ghl_form_success</code> through <code>pagehide</code>, because the form redirects to a thank-you page. It carried the normalised email and phone, first and last name, ZIP, form ID and button text.</li><li><strong>Failed event:</strong> on that form, an empty required field now fires <code>ghl_form_failed</code>. I didn't test a visitor fixing the error and resubmitting on a live form.</li><li><strong>Tags:</strong> the listener ran in my browser with GTM cut off, so the lead wouldn't reach the client's reports. On a redirecting form the event fires as the page unloads, so check GA4 Realtime and Google Ads after your own test.</li><li><strong>Iframe embeds:</strong> tested in Chrome with simulated messages only, not a live form. GoHighLevel doesn't document this message and could change it. <code>debug: true</code> shows why each message was ignored.</li><li>No validation failures for iframes, because the parent page can't see them.</li><li>Some forms only look like GoHighLevel. One site loaded a GoHighLevel iframe, but its visible form was its own. If you see <code>gtm.formSubmit</code> and no listener event, check whose form it is.</li></ul>"
   ]
  ],
  "closing": "<p>If you'd rather have this installed and checked for you, I can help.</p>",
  "related": "<p><strong>Related:</strong> <a href=\"https://iyrexmedia.com/gtm-form-listeners/gohighlevel-forms/\">GoHighLevel listener</a> · <a href=\"https://iyrexmedia.com/gravity-forms-gtm-tracking/\">Gravity Forms walkthrough</a> · <a href=\"https://iyrexmedia.com/universal-gtm-form-tracking-listener/\">Universal form tracking walkthrough</a></p>",
  "seo": {
   "title": "GoHighLevel GTM Form Tracking for GA4 and Ads | IyrexMedia",
-  "desc": "Track GoHighLevel iframe and inline forms in GTM without counting bookings as leads. Free listener, with setup steps and Enhanced Conversions data.",
+  "desc": "Track GoHighLevel forms in GTM with a free listener tested on a live form. Catches real leads with contact data for Enhanced Conversions, and skips bookings.",
   "kw": "GoHighLevel GTM form tracking",
   "slug": "gohighlevel-gtm-tracking",
-  "card": "Forms and calendars both post messages from the same iframes. Here's how to count form leads only, with contact data for Enhanced Conversions."
+  "card": "A real test lead through a live GoHighLevel form, the bug it exposed, and the GTM setup that catches leads with full contact data."
  }
 }
