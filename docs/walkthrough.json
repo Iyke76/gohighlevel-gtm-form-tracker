@@ -17,7 +17,7 @@
   ],
   [
    "Step 3: Send it to GA4 and Google Ads",
-   "<p>Add a <strong>GA4 Event</strong> tag on the trigger. <code>form_platform</code> tells you which kind of embed sent the lead: <code>ghl_iframe</code> for iframes.</p>[[img:ghl-ga4-tag|Form details only, no contact fields.]]<p>Put your <strong>Google Ads Conversion Tracking</strong> tag on the same trigger. Then map <code>ec_email</code> and <code>ec_phone</code> in a User-Provided Data variable, and check the values as shown in the <a href=\"https://iyrexmedia.com/gravity-forms-gtm-tracking/\">Gravity Forms walkthrough</a>. Iframe payloads carry contact data, so Enhanced Conversions works on both embed types.</p>[[img:ghl-ec-tag|User-provided data on the success event.]]"
+   "<p>Add a <strong>GA4 Event</strong> tag on the trigger. <code>form_platform</code> tells you which kind of embed sent the lead: <code>ghl_iframe</code> for iframes.</p>[[img:ghl-ga4-tag|Form details only, no contact fields.]]<p>Put your <strong>Google Ads Conversion Tracking</strong> tag on the same trigger. Then map <code>ec_email</code> and <code>ec_phone</code> in a User-Provided Data variable, and check the values as shown in the <a href=\"https://iyrexmedia.com/gravity-forms-gtm-tracking/\">Gravity Forms walkthrough</a>. Iframe payloads carry contact data, so Enhanced Conversions works on both embed types.</p>[[img:ghl-ec-tag|User-provided data on the success event.]]<p><strong>Want these in reports?</strong> GA4 won't show them until you register each one as a custom dimension. <a href=\"https://iyrexmedia.com/gravity-forms-gtm-tracking/#ga4-dimensions\">Here's how</a>.</p>"
   ],
   [
    "Step 4: Test, then publish",
