@@ -26,6 +26,10 @@
   [
    "What to know",
    "<ul><li><strong>Native form:</strong> on a live page in November 2026, a labelled test lead fired one <code>ghl_form_success</code> through <code>pagehide</code>, because the form redirects to a thank-you page. It carried the normalised email and phone, first and last name, ZIP, form ID and button text.</li><li><strong>Failed event:</strong> on that form, an empty required field now fires <code>ghl_form_failed</code>. I didn't test a visitor fixing the error and resubmitting on a live form.</li><li><strong>Tags:</strong> the listener ran in my browser with GTM cut off, so the lead wouldn't reach the client's reports. On a redirecting form the event fires as the page unloads, so check GA4 Realtime and Google Ads after your own test.</li><li><strong>Iframe embeds:</strong> tested in Chrome with simulated messages only, not a live form. GoHighLevel doesn't document this message and could change it. <code>debug: true</code> shows why each message was ignored.</li><li>No validation failures for iframes, because the parent page can't see them.</li><li>Some forms only look like GoHighLevel. One site loaded a GoHighLevel iframe, but its visible form was its own. If you see <code>gtm.formSubmit</code> and no listener event, check whose form it is.</li></ul>"
+  ],
+  [
+   "Frequently asked questions",
+   "<h3>How do I set up GoHighLevel Google Ads conversion tracking?</h3><p>Put your Google Ads conversion tag on <code>ghl_form_success</code>, and map <code>ec_email</code> and <code>ec_phone</code> for Enhanced Conversions. Then run one test lead and confirm the tag in Preview.</p><h3>Will this count calendar bookings as leads?</h3><p>No. Booking and calendar messages are ignored, so you'd need a separate setup to track bookings.</p>"
   ]
  ],
  "closing": "<p>If you'd rather have this installed and checked for you, I can help.</p>",
