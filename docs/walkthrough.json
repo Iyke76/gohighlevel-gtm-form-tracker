@@ -9,7 +9,7 @@
   ],
   [
    "Step 1: Add the listener tag",
-   "<ol><li><a class=\"uft-download\" href=\"https://iyrexmedia.com/wp-content/uploads/gtm-form-listeners/gohighlevel-form-tracker-v3.3.0.gtm.txt\" download>Download the GTM tag</a>, or get it from <a href=\"https://github.com/Iyke76/gohighlevel-gtm-form-tracker\" target=\"_blank\" rel=\"noopener\">GitHub</a>.</li><li>In GTM, go to <strong>Tags &gt; New &gt; Custom HTML</strong> and paste it.</li><li>Trigger it on <strong>All Pages</strong>.</li></ol>[[img:ghl-listener-tag|An older build, paused in a client container where a universal tag is active. Yours should be active.]]<p>If the site uses other form tools too, use the <a href=\"https://iyrexmedia.com/universal-gtm-form-tracking-listener/\">universal listener walkthrough</a> instead of stacking tags.</p>"
+   "<ol><li><a class=\"uft-download\" href=\"https://iyrexmedia.com/wp-content/uploads/gtm-form-listeners/gohighlevel-form-tracker-v3.3.0.gtm.txt\" download>Download the GTM tag</a>, or get it from <a href=\"https://github.com/Iyke76/gohighlevel-gtm-form-tracker\" target=\"_blank\" rel=\"noopener\">GitHub</a>.</li><li>In GTM (Google Tag Manager, a free tool that adds tracking to a site without editing its code), go to <strong>Tags &gt; New &gt; Custom HTML (the GTM option for pasting in a script)</strong> and paste it.</li><li>Trigger it on <strong>All Pages</strong>.</li></ol>[[img:ghl-listener-tag|An older build, paused in a client container where a universal tag is active. Yours should be active.]]<p>If the site uses other form tools too, use the <a href=\"https://iyrexmedia.com/universal-gtm-form-tracking-listener/\">universal listener walkthrough</a> instead of stacking tags.</p>"
   ],
   [
    "Step 2: Create the trigger",
@@ -17,11 +17,11 @@
   ],
   [
    "Step 3: Send it to GA4 and Google Ads",
-   "<p>Add a <strong>GA4 Event</strong> tag on the trigger. <code>form_platform</code> tells you which kind of embed sent the lead: <code>ghl_iframe</code> for iframes.</p>[[img:ghl-ga4-tag|Form details only, no contact fields.]]<p>Put your <strong>Google Ads Conversion Tracking</strong> tag on the same trigger. Then map <code>ec_email</code> and <code>ec_phone</code> in a User-Provided Data variable, and check the values as shown in the <a href=\"https://iyrexmedia.com/gravity-forms-gtm-tracking/\">Gravity Forms walkthrough</a>. Iframe payloads carry contact data, so Enhanced Conversions works on both embed types.</p>[[img:ghl-ec-tag|User-provided data on the success event.]]<p><strong>Want these in reports?</strong> GA4 won't show them until you register each one as a custom dimension. <a href=\"https://iyrexmedia.com/gravity-forms-gtm-tracking/#ga4-dimensions\">Here's how</a>.</p>"
+   "<p>Add a <strong>GA4 Event</strong> tag on the trigger (the rule that tells a tag when to run). <code>form_platform</code> tells you which kind of embed sent the lead: <code>ghl_iframe</code> for iframes.</p>[[img:ghl-ga4-tag|Form details only, no contact fields.]]<p>Put your <strong>Google Ads Conversion Tracking</strong> tag on the same trigger. Then map <code>ec_email</code> and <code>ec_phone</code> in a User-Provided Data variable, and check the values as shown in the <a href=\"https://iyrexmedia.com/gravity-forms-gtm-tracking/\">Gravity Forms walkthrough</a>. Iframe payloads carry contact data, so Enhanced Conversions (a Google Ads feature that uses a lead's contact details to match them to ad clicks) works on both embed types.</p>[[img:ghl-ec-tag|User-provided data on the success event.]]<p><strong>Want these in reports?</strong> GA4 won't show them until you register each one as a custom dimension. <a href=\"https://iyrexmedia.com/gravity-forms-gtm-tracking/#ga4-dimensions\">Here's how</a>.</p>"
   ],
   [
    "Step 4: Test, then publish",
-   "<ol><li>In <strong>Preview</strong>, load the page and expect <code>ec_tracker_initialized</code>.</li><li>Submit a labelled test lead. Use a valid phone format, because GoHighLevel rejected our 555-555 test number. Expect one <code>ghl_form_success</code>, and check <code>ec_detection_method</code> and the <code>ec_*</code> values.</li><li>If the page has a calendar, book a test slot. No <code>ghl_form_success</code> should fire.</li><li>Submit with a required field empty. Expect <code>ghl_form_failed</code> on a native form.</li><li>If nothing fires, set <code>debug: true</code>. The console says why each message was ignored.</li></ol><p>Then remove old click and thank-you triggers, or each lead counts twice.</p>"
+   "<ol><li>In <strong>Preview</strong> (GTM's test mode), load the page and expect <code>ec_tracker_initialized</code>.</li><li>Submit a labelled test lead. Use a valid phone format, because GoHighLevel rejected our 555-555 test number. Expect one <code>ghl_form_success</code>, and check <code>ec_detection_method</code> and the <code>ec_*</code> values.</li><li>If the page has a calendar, book a test slot. No <code>ghl_form_success</code> should fire.</li><li>Submit with a required field empty. Expect <code>ghl_form_failed</code> on a native form.</li><li>If nothing fires, set <code>debug: true</code>. The console says why each message was ignored.</li></ol><p>Then remove old click and thank-you triggers, or each lead counts twice.</p>"
   ],
   [
    "What to know",
@@ -40,5 +40,6 @@
   "kw": "GoHighLevel GTM form tracking",
   "slug": "gohighlevel-gtm-tracking",
   "card": "A real test lead through a live GoHighLevel form, the bug it exposed, and the GTM setup that catches leads with full contact data."
- }
+ },
+ "business": "<p>If your GoHighLevel page has a form and a calendar, you want to know which is which. This setup counts form leads and leaves out bookings, so your form numbers aren't inflated by them. It also passes contact details to Google Ads so it can match leads to your ads.</p><p>The steps below are for whoever installs it, so you can hand this page to your developer or marketer.</p>"
 }
