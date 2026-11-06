@@ -1,0 +1,40 @@
+{
+ "title": "How to Track GoHighLevel Forms in GTM Without Counting Bookings",
+ "intro": "<p>A GoHighLevel page can have a form and a calendar on it. Both sit in iframes from the same domains, and both talk to the page through messages. A listener that isn't careful about which is which can record a booking as a form lead.</p><p>When I went through 104 client containers this month, one had a dedicated GoHighLevel listener. It was paused, because a universal listener in the same container already catches <code>ghl_form_success</code>. That's the right call, since you only want one listener doing the job. It also gave me a real setup to show you.</p><p>Here's how to install it, with the names removed.</p>",
+ "tldr": "<p>Add one free Custom HTML tag and trigger on <code>ghl_form_success</code>. It covers iframe and inline forms, ignores booking messages, and only accepts messages from GoHighLevel domains. Contact data works on both embeds. Test on your own form, because GoHighLevel's message format isn't documented.</p>",
+ "sections": [
+  [
+   "A form and a calendar look alike from outside",
+   "<p>Here's what the listener accepts, and what it ignores:</p><div class=\"bc-table\"><table><thead><tr><th>Message or state</th><th>Result</th></tr></thead><tbody><tr><td>Lead payload from <code>leadconnectorhq.com</code>, <code>msgsndr.com</code> or <code>gohighlevel.com</code>, with an email, phone or name</td><td><code>ghl_form_success</code>, method <code>postmessage</code></td></tr><tr><td>Booking, appointment or calendar message</td><td>Ignored</td></tr><tr><td>Same payload from any other origin, or not from a GoHighLevel iframe on the page</td><td>Ignored</td></tr><tr><td>Inline form removed or hidden after submit</td><td><code>ghl_form_success</code></td></tr><tr><td>Inline form redirects to a same-domain thank-you page</td><td><code>ghl_form_success</code>, from stored data</td></tr><tr><td>Inline form shows an error after the visitor interacted</td><td><code>ghl_form_failed</code></td></tr></tbody></table></div><p>Here's what else is out there:</p><div class=\"bc-table\"><table><thead><tr><th>Option</th><th>What it does</th><th>The gap</th></tr></thead><tbody><tr><td><a href=\"https://www.optizent.com/blog/how-to-track-gohighlevel-form-submissions-and-booking-completions-using-google-tag-manager/\" target=\"_blank\" rel=\"noopener\">Optizent's guide</a></td><td>Free listener for forms and bookings, with separate events</td><td>Its form check looks for an address, customer ID, name and email together, and booking events reuse the last cached inputs</td></tr><tr><td><a href=\"https://wizmjo.gumroad.com/l/ghlgtmformlistener\" target=\"_blank\" rel=\"noopener\">GHL Form Listener on Gumroad</a></td><td>$20 GTM setup with Enhanced Conversions data and no thank-you page</td><td>Paid, and the page doesn't say how inline forms are handled</td></tr></tbody></table></div><p>If you want booking events too, Optizent's guide covers them and this listener doesn't. I wanted a form event that a booking can't trigger.</p>"
+  ],
+  [
+   "Step 1: Add the listener tag",
+   "<ol><li><a class=\"uft-download\" href=\"https://iyrexmedia.com/wp-content/uploads/gtm-form-listeners/gohighlevel-form-tracker-v3.3.0.gtm.txt\" download>Download the GTM tag</a>, or get it from <a href=\"https://github.com/Iyke76/gohighlevel-gtm-form-tracker\" target=\"_blank\" rel=\"noopener\">GitHub</a>.</li><li>In GTM, go to <strong>Tags &gt; New &gt; Custom HTML</strong> and paste it.</li><li>Trigger it on <strong>All Pages</strong>.</li></ol>[[img:ghl-listener-tag|The standalone tag in that container, paused because the universal tag does the work. An older build is shown. Yours should be active.]]<p>If the site uses other form tools too, use the <a href=\"https://iyrexmedia.com/universal-gtm-form-tracking-listener/\">universal listener walkthrough</a> instead of stacking tags.</p>"
+  ],
+  [
+   "Step 2: Create the trigger",
+   "<p>Create a <strong>Custom Event</strong> trigger on <code>ghl_form_success</code>. This container also splits conversions by hostname, so the main site's leads and landing page leads go to separate conversion actions.</p>[[img:ghl-trigger|A regex trigger for three form tools, limited to one hostname.]]"
+  ],
+  [
+   "Step 3: Send it to GA4 and Google Ads",
+   "<p>Add a <strong>GA4 Event</strong> tag on the trigger. <code>form_platform</code> tells you which kind of embed sent the lead: <code>ghl_iframe</code> for iframes.</p>[[img:ghl-ga4-tag|Form details only, no contact fields.]]<p>Put your <strong>Google Ads Conversion Tracking</strong> tag on the same trigger. Then map <code>ec_email</code> and <code>ec_phone</code> in a User-Provided Data variable, and check the values as shown in the <a href=\"https://iyrexmedia.com/gravity-forms-gtm-tracking/\">Gravity Forms walkthrough</a>. Iframe payloads carry contact data, so Enhanced Conversions works on both embed types.</p>[[img:ghl-ec-tag|User-provided data on the success event.]]"
+  ],
+  [
+   "Step 4: Test, then publish",
+   "<ol><li>In <strong>Preview</strong>, load the page and expect <code>ec_tracker_initialized</code>.</li><li>Submit a labelled test lead. Expect one <code>ghl_form_success</code>, and check <code>ec_detection_method</code> and the <code>ec_*</code> values.</li><li>If the page has a calendar, book a test slot. No <code>ghl_form_success</code> should fire.</li><li>If nothing fires, set <code>debug: true</code>. The console says why each message was ignored.</li></ol><p>Then remove old click and thank-you triggers, or each lead counts twice.</p>"
+  ],
+  [
+   "What to know",
+   "<ul><li>I tested v3.3.0 in Chrome with simulated messages to a GoHighLevel iframe. A wrong origin, a booking message and a payload with no identifier were all ignored. A lead fired once, with a normalised email and phone, and a second message from that iframe didn't fire again.</li><li>That wasn't a live form. GoHighLevel doesn't document this message and could change it, so test on yours with <code>debug: true</code>.</li><li>No validation failures for iframes. The parent page can't see them.</li><li>Only one event per iframe per page load, so a second submission without a reload isn't counted.</li></ul>"
+  ]
+ ],
+ "closing": "<p>If you'd rather have this installed and checked for you, I can help.</p>",
+ "related": "<p><strong>Related:</strong> <a href=\"https://iyrexmedia.com/gtm-form-listeners/gohighlevel-forms/\">GoHighLevel listener</a> · <a href=\"https://iyrexmedia.com/gravity-forms-gtm-tracking/\">Gravity Forms walkthrough</a> · <a href=\"https://iyrexmedia.com/universal-gtm-form-tracking-listener/\">Universal form tracking walkthrough</a></p>",
+ "seo": {
+  "title": "GoHighLevel GTM Form Tracking for GA4 and Ads | IyrexMedia",
+  "desc": "Track GoHighLevel iframe and inline forms in GTM without counting bookings as leads. Free listener, with setup steps and Enhanced Conversions data.",
+  "kw": "GoHighLevel GTM form tracking",
+  "slug": "gohighlevel-gtm-tracking",
+  "card": "Forms and calendars both post messages from the same iframes. Here's how to count form leads only, with contact data for Enhanced Conversions."
+ }
+}
