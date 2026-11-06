@@ -1,5 +1,9 @@
 # Changelog
 
+## GoHighLevel failure fix (2026-11-06)
+
+`ghl_form_failed` could stay silent on a native form because the check only looked at the first element with an error class, and that element could be hidden. It now looks for any visible error with text. Found on a live GoHighLevel form.
+
 ## 3.3.0 (2026-11-06)
 
 Rebuilt from the universal tracker v3.3.0. Existing event names and keys are unchanged, so current triggers and variables keep working.
